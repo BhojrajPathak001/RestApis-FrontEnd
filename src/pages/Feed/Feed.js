@@ -149,6 +149,12 @@ class Feed extends Component {
       editLoading: true,
     });
 
+    const formData = new FormData();
+    formData.append("image", postData.image);
+    if (this.state.editPost) {
+      formData.append('oldPath', this.state.editPost.imagePath);
+    }
+
     const graphqlQuery = {
       query: `
         mutation {

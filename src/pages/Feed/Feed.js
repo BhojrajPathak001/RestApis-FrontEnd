@@ -57,7 +57,7 @@ class Feed extends Component {
     const graphqlQuery = {
       query: `
         {
-          posts {
+          posts(page:${page}) {
             posts {
               _id
               title
@@ -149,6 +149,12 @@ class Feed extends Component {
       editLoading: true,
     });
 
+    const formData = new FormData();
+    formData.append("image", postData.image);
+    if (this.state.editPost) {
+      formData.append('oldPath', this.state.editPost.imagePath);
+    }
+
     const graphqlQuery = {
       query: `
         mutation {
@@ -204,6 +210,7 @@ class Feed extends Component {
             );
             updatedPosts[postIndex] = post;
           } else {
+            updatedPosts.pop();
             updatedPosts.unshift(post);
           }
           return {

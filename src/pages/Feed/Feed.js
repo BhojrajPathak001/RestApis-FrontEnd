@@ -288,11 +288,28 @@ class Feed extends Component {
 
   deletePostHandler = (postId) => {
     this.setState({ postsLoading: true });
-    fetch("http://localhost:8080/feed/post/" + postId, {
-      method: "DELETE",
+    const graphqlQuery = {
+      query: `
+        mutation DeletePost($postId: ID!) {
+          deletePost(postId:$postId ) {
+            success
+            message
+            deletedPostId
+          }
+        }
+      `,
+      variables: {
+        postId: `${postId}`,
+      },
+    };
+
+    fetch("http://localhost:8080/graphql", {
+      method: "POST",
       headers: {
         Authorization: "Bearer " + this.props.token,
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify(graphqlQuery),
     })
       .then((res) => {
         if (res.status !== 200 && res.status !== 201) {

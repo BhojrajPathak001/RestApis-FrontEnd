@@ -4,20 +4,12 @@ import "./Image.css";
 
 const image = (props) => {
   // Replace backslashes with forward slashes in the imageUrl
-  const sanitizedImageUrl = props.imageUrl.replace(/\\/g, '/');
-  
-  console.log(sanitizedImageUrl);
+  const sanitizedImageUrl = props.imageUrl.replace(/\\/g, "/");
   return (
-    <div
-      className="image"
-      style={{
-        backgroundImage: `url('${sanitizedImageUrl}')`,
-        backgroundSize: props.contain ? "contain" : "cover",
-        backgroundPosition: props.left ? "left" : "center",
-      }}
-    />
+    <div className="image">
+      <img src={sanitizedImageUrl} />
+    </div>
   );
 };
-
 
 export default image;
